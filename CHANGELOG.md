@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1
+
+- `WebhookSignature.valid?` returns false for an empty secret instead of checking against an empty key.
+- Drop the RubyGems MFA requirement from the gemspec metadata.
+
 ## 1.0.0
 
 First release.

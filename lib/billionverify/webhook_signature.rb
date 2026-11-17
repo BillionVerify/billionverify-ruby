@@ -22,6 +22,7 @@ module BillionVerify
     # @return [Boolean]
     def valid?(payload:, signature:, timestamp:, secret:, tolerance: DEFAULT_TOLERANCE, now: Time.now)
       return false if signature.nil? || timestamp.nil? || secret.nil? || payload.nil?
+      return false if secret.to_s.strip.empty?
 
       ts = Integer(timestamp.to_s, 10, exception: false)
       return false if ts.nil?

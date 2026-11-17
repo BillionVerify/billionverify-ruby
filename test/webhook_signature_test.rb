@@ -48,6 +48,17 @@ class WebhookSignatureTest < Minitest::Test
     refute valid?(signature: "sha256=zz")
   end
 
+  def test_rejects_an_empty_secret
+    forged = "sha256=" + OpenSSL::HMAC.hexdigest("SHA256", "", "1700000000.#{BODY}")
+    refute valid?(secret: "", signature: forged)
+    refute valid?(secret: "  ", signature: forged)
+  end
+
+  def test_rejects_extreme_timestamps
+    refute valid?(timestamp: "-9223372036854775808")
+    refute valid?(timestamp: "99999999999999999999999999")
+  end
+
   def test_accepts_a_bare_hex_digest
     assert valid?(signature: sign(BODY, "1700000000").delete_prefix("sha256="))
   end
